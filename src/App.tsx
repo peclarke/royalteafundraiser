@@ -26,8 +26,7 @@ function App() {
 
   const previousCups = useMemo(() => {
     const beforeGroup = teacupImages.filter(image => image.donationValue <= donations);
-    // const before = beforeGroup.length > 0 ? beforeGroup[beforeGroup.length - 1].filledUrl : undefined;
-    const beforeUrls = beforeGroup.map(image => image.filledUrl);
+    const beforeUrls = beforeGroup.map(image => image.finalUrl ?? image.filledUrl);
     return beforeUrls;
   }, [activeMilestone])
 
