@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Milestone } from "./Milestone";
 
 type CupProps = {
@@ -19,16 +19,20 @@ export const BlankCup = ({ImageSource}: BlankCupProps) => {
 } 
 
 const Cup = ({ImageSource, ImageSource2 = "", donations, activeMilestone}: CupProps) => {
-    // percentage croppings
-    const end = 75;
+    // variables for fun math
+    const endRatio = 0.65;
     const start = 10;
+    const fixedMilestoneAmt = 250; // the crux is that intervals are only 250
 
-    /**
-     * This controls the amount of 
-     */
-    const [progress, setProgress] = useState<number>((100 - (donations / activeMilestone.value * 100)) * 0.65 + 10);
+    // fun math to deal with donation / milestone / percentage filled amount
+    const calculateProgress = () => {
+        const subAmt = (Math.floor(activeMilestone.value / fixedMilestoneAmt) - 1) * fixedMilestoneAmt;
+        const percentageProgress = (donations % fixedMilestoneAmt) / (activeMilestone.value - subAmt) * 100;
+        return (100 - percentageProgress) * endRatio + start;
+    }
 
-    // const [progress, setProgress] = useState<number>(percentageComplete * 0.65 + 10);
+    // Rerun the calculations each time donations are updated
+    const progress = useMemo(calculateProgress, [donations])
   
     const teaCupStyle = { clipPath: 'inset('+progress+'% 0 0 0)'}
 
