@@ -13,6 +13,7 @@ import Five from "./assets/5.png";
 import FiveFilled from "./assets/5Filled.png";
 import Six from "./assets/6.png";
 import SixFilled from "./assets/6Filled.png";
+import CombinedAvatars from "./Avatar";
 
 type CupProps = {
     ImageSource: string;
@@ -47,17 +48,21 @@ const Cup = ({ImageSource, ImageSource2 = "", donations, activeMilestone}: CupPr
     // Rerun the calculations each time donations are updated
     const progress = useMemo(calculateProgress, [donations])
   
-    const teaCupStyle = { clipPath: 'inset('+progress+'% 0 0 0)'}
+    const teaCupStyle = { clipPath: 'inset('+progress+'% 0 0 0)', zIndex: 0}
 
     return (
         <>
-        <img 
-        src={ImageSource2} 
-        className="teacup-root teacup-main"
-        style={teaCupStyle}
-        key={progress}
-        />
-        <img src={ImageSource} className="teacup-root teacup-main"/>
+            {/* <CombinedAvatars /> */}
+            <div className="teacup-container">
+                <CombinedAvatars />
+                <img 
+                src={ImageSource2} 
+                className="teacup-root teacup-main"
+                style={teaCupStyle}
+                key={progress}
+                />
+                <img src={ImageSource} className="teacup-root teacup-main"/>
+            </div>
         </>
     )
 }
