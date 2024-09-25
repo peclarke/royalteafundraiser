@@ -1,44 +1,37 @@
 import { Button, Grid2 as Grid } from '@mui/material';
 import './App.css';
 
-import Teacup from './assets/teacup.png';
-import TeacupFilled from './assets/teacupFilled.png';
-import { useEffect, useState } from 'react';
-import Cup, { BlankCup, TeacupImageType } from './Cup';
+import { useMemo, useState } from 'react';
+import Cup, { BlankCup, teacupImages } from './Cup';
 import DefaultMilestones, { Milestone } from './Milestone';
-
-const teacupImages: TeacupImageType[] = [
-  {
-      baseUrl: Teacup,
-      filledUrl: TeacupFilled,
-      donationValue: 250,
-  },
-  {
-    baseUrl: Teacup,
-    filledUrl: TeacupFilled,
-    donationValue: 500,
-}
-];
 
 function App() {
   // internal state
   const [donations, setDonations] = useState<number>(80);
   const [milestones, setMilestones] = useState<Milestone[]>(DefaultMilestones);
 
-  const activeMilestone = milestones.filter(milestone => milestone.value > donations)[0];
-  const activeTeacup = teacupImages.filter(image => image.donationValue > donations)[0];
+  const activeMilestone = useMemo(() => { return milestones.filter(milestone => milestone.value > donations)[0] }, [donations]);
 
-  // useEffect(() => console.log(donations), []);
+  // Recalculate the following when we reach a new milestone
+  const activeTeacup = useMemo(() => { return teacupImages.filter(image => image.donationValue > donations)[0] }, [activeMilestone]);
+  const surroundingCups = useMemo(() => {
+    const beforeGroup = teacupImages.filter(image => image.donationValue <= donations);
+    const before = beforeGroup.length > 0 ? beforeGroup[beforeGroup.length - 1].filledUrl : undefined;
 
-  // const handleClick = () => setDonations(donations + 20);
+    const afterGroup = teacupImages.filter(image => image.donationValue > (donations + 250));
+    const after = afterGroup.length > 0 ? afterGroup[0].baseUrl : undefined;
+
+    return [before, after];
+  }, [activeMilestone])
+
   // firebase trickery
 
   // rendering
   return (
     <Grid container spacing={2}>
       <Grid size={2} className="container">
-        <BlankCup ImageSource={Teacup}/>
-        {/* <Button onClick={handleClick} variant="contained">Add</Button> */}
+        <BlankCup ImageSource={surroundingCups[0]}/>
+        <Button onClick={() => setDonations(donations + 100)} variant="contained">Add</Button>
       </Grid>
       <Grid size={8} className="container feature">
         <Cup 
@@ -49,7 +42,7 @@ function App() {
         />
       </Grid>
       <Grid size={2} className="container">
-        <BlankCup ImageSource={Teacup}/>
+        <BlankCup ImageSource={surroundingCups[1]}/>
       </Grid>
     </Grid>
   )

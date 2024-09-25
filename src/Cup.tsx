@@ -1,6 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { Milestone } from "./Milestone";
 
+import One from "./assets/1.png";
+import OneFilled from "./assets/1Filled.png";
+import Two from "./assets/2.png";
+import TwoFilled from "./assets/2Filled.png";
+import Three from "./assets/3.png";
+import ThreeFilled from "./assets/3Filled.png";
+import Four from "./assets/4.png";
+import FourFilled from "./assets/4Filled.png";
+import Five from "./assets/5.png";
+import FiveFilled from "./assets/5Filled.png";
+import Six from "./assets/6.png";
+import SixFilled from "./assets/6Filled.png";
+
 type CupProps = {
     ImageSource: string;
     ImageSource2: string;
@@ -9,7 +22,7 @@ type CupProps = {
 }
 
 type BlankCupProps = {
-    ImageSource: string;
+    ImageSource: string | undefined;
 }
 
 export const BlankCup = ({ImageSource}: BlankCupProps) => {
@@ -56,5 +69,38 @@ export type TeacupImageType = {
     filledUrl: string;
     donationValue: number;
 }
+
+export const teacupImages: TeacupImageType[] = [
+    {
+        baseUrl: One,
+        filledUrl: OneFilled,
+        donationValue: 250,
+    },
+    {
+      baseUrl: Two,
+      filledUrl: TwoFilled,
+      donationValue: 500,
+    },
+    {
+      baseUrl: Three,
+      filledUrl: ThreeFilled,
+      donationValue: 750,
+    },
+    {
+      baseUrl: Four,
+      filledUrl: FourFilled,
+      donationValue: 1000,
+    },
+    {
+      baseUrl: Five,
+      filledUrl: FiveFilled,
+      donationValue: 1250,
+    },
+    {
+      baseUrl: Six,
+      filledUrl: SixFilled,
+      donationValue: 1500,
+    }
+  ];
 
 export default Cup;
