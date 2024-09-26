@@ -32,6 +32,7 @@ type CupProps = {
     ImageSource2: string;
     donations: number;
     activeMilestone: Milestone;
+    setCurrentProgress: (val: number) => void;
 }
 
 type BlankCupProps = {
@@ -44,7 +45,7 @@ export const BlankCup = ({ImageSource}: BlankCupProps) => {
     )
 } 
 
-const Cup = ({ImageSource, ImageSource2 = "", donations, activeMilestone}: CupProps) => {
+const Cup = ({ImageSource, ImageSource2 = "", donations, activeMilestone, setCurrentProgress}: CupProps) => {
     // variables for fun math
     const endRatio = 0.65;
     const start = 10;
@@ -54,6 +55,7 @@ const Cup = ({ImageSource, ImageSource2 = "", donations, activeMilestone}: CupPr
     const calculateProgress = () => {
         const subAmt = (Math.floor(activeMilestone.value / fixedMilestoneAmt) - 1) * fixedMilestoneAmt;
         const percentageProgress = (donations % fixedMilestoneAmt) / (activeMilestone.value - subAmt) * 100;
+        setCurrentProgress(percentageProgress);
         return (100 - percentageProgress) * endRatio + start;
     }
 
@@ -84,8 +86,9 @@ const Cup = ({ImageSource, ImageSource2 = "", donations, activeMilestone}: CupPr
 export type TeacupImageType = {
     baseUrl: string;
     filledUrl: string;
-    finalUrl?: string;
+    finalUrl: string;
     donationValue: number;
+    donationStyle: Record<string, string>;
 }
 
 export const teacupImages: TeacupImageType[] = [
@@ -94,36 +97,60 @@ export const teacupImages: TeacupImageType[] = [
         filledUrl: OneFilled,
         finalUrl: FinalOne,
         donationValue: 250,
+        donationStyle: {
+          backgroundColor: 'rgb(182, 127, 0)',
+          color: 'rgb(252, 255, 173)',
+        }
     },
     {
       baseUrl: Two,
       filledUrl: TwoFilled,
       finalUrl: FinalTwo,
       donationValue: 500,
+      donationStyle: {
+        backgroundColor: 'rgb(0, 176, 182)',
+        color: 'rgb(173, 251, 255)',
+      }
     },
     {
       baseUrl: Three,
       filledUrl: ThreeFilled,
       finalUrl: FinalThree,
       donationValue: 750,
+      donationStyle: {
+        backgroundColor: 'rgb(18, 182, 0)',
+        color: 'rgb(173, 255, 181)',
+      }
     },
     {
       baseUrl: Four,
       filledUrl: FourFilled,
       finalUrl: FinalFour,
       donationValue: 1000,
+      donationStyle: {
+        backgroundColor: 'rgb(161, 0, 182)',
+        color: 'rgb(245, 173, 255)',
+      }
     },
     {
       baseUrl: Five,
       filledUrl: FiveFilled,
       finalUrl: FinalFive,
       donationValue: 1250,
+      donationStyle: {
+        backgroundColor: 'rgb(182, 0, 0)',
+        color: 'rgb(255, 173, 173)',
+      }
     },
     {
       baseUrl: Six,
       filledUrl: SixFilled,
       finalUrl: FinalSix,
       donationValue: 1500,
+      donationStyle: {
+        backgroundColor: 'rgb(0, 182, 179)',
+        color: 'rgb(173, 255, 251)',
+      }
     }
   ];
 
