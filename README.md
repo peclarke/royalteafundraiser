@@ -1,50 +1,21 @@
-# React + TypeScript + Vite
+# Royal Tea Fundraiser
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Built for the Garden, a christian-run communnity for university students to belong. This fundraiser aims to raise funds for two friends from our community to go on a missionary internship overseas.
+I developed similar software to this for a different fundraiser which can also be found in my repository list at: https://github.com/peclarke/fundraiser
 
-Currently, two official plugins are available:
+## Reason why this was redeveloped
+1. Each fundraiser has it's own particular theme. This one was English / Tea themed, which resulted in the idea of filling teacups to complete milestones.
+2. This software uses firebase realtime database as a truce source of information. This was simpler and overall, a much more robust solution in comparison to creating your own server from scratch.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- Donation Tracking
+- Milestones per donation
+- Admin panel (mobile optimised)
 
-## Expanding the ESLint configuration
+## Planned
+- Authentication for admin panel
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Screenshots
+![Screen Shot 2024-10-01 at 3 41 32 pm](https://github.com/user-attachments/assets/35041274-9a54-44fc-90db-faebbfe7bf57)
+![Screen Shot 2024-10-01 at 3 39 09 pm](https://github.com/user-attachments/assets/e59366cb-f095-4701-a7b5-ee9f2b8c4671)
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
