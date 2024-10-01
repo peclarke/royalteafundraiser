@@ -1,9 +1,11 @@
 import { Button, Grid2 as Grid } from '@mui/material';
 import './App.css';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Cup, { BlankCup, teacupImages } from './Cup';
 import DefaultMilestones, { Milestone } from './Milestone';
+import { database } from './db';
+import { off, onChildAdded, onChildChanged, onChildRemoved, onValue, ref } from 'firebase/database';
 
 function App() {
   // internal state
@@ -19,7 +21,7 @@ function App() {
     } else {
       return undefined;
     }
-  }, [donations]);
+  }, [donations, milestones]);
 
   // Recalculate the following when we reach a new milestone
   const activeTeacup = useMemo(() => { 
@@ -51,6 +53,53 @@ function App() {
   const styleExists = !(activeMilestone && activeMilestone.reward);
 
   // firebase trickery
+  useEffect(() => {
+    // refs for interactions
+    const dbDonations  = ref(database, 'donations');
+    const dbMilestones = ref(database, 'milestones');
+    
+
+    // listeners
+    onValue(dbDonations, (snapshot) => {
+      const newValue = snapshot.val();
+      setDonations(newValue);
+    })
+
+    onChildAdded(dbMilestones, (data) => {
+      const milestone: Milestone = data.val();
+      setMilestones([...milestones, milestone]
+      );
+    })
+
+    onChildRemoved(dbMilestones, (data) => {
+      const goneMilestone: Milestone = data.val();
+      const newMs = milestones.filter(milestone => milestone.reward !== goneMilestone.reward);
+      setMilestones(newMs);
+    })
+
+    onChildChanged(dbMilestones, (data) => {
+      const index = parseInt(data.key as string);
+      const newMs = milestones.map((milestone, i) => i === index ? data.val() : milestone);
+      setMilestones(newMs);
+    });
+
+    // once off get all milestones
+    onValue(dbMilestones, (snapshot) => {
+      const ms: Milestone[] = []
+      snapshot.forEach((childSnapshot) => {
+        const childData = childSnapshot.val();
+        ms.push(childData);
+      });
+      setMilestones(ms);
+    }, {
+      onlyOnce: true
+    });
+    
+    return () => {
+      off(dbDonations);
+      off(dbMilestones);
+    }
+  }, [])
 
   // rendering
   return (
