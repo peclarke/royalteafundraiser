@@ -1,29 +1,29 @@
 import { useMemo } from "react";
 import { Milestone } from "./Milestone";
 
-import One from "./assets/1.png";
-import OneFilled from "./assets/1Filled.png";
-import FinalOne from "./assets/250.png";
+import One from "../assets/1.png";
+import OneFilled from "../assets/1Filled.png";
+import FinalOne from "../assets/250.png";
 
-import Two from "./assets/2.png";
-import TwoFilled from "./assets/2Filled.png";
-import FinalTwo from "./assets/500.png";
+import Two from "../assets/2.png";
+import TwoFilled from "../assets/2Filled.png";
+import FinalTwo from "../assets/500.png";
 
-import Three from "./assets/3.png";
-import ThreeFilled from "./assets/3Filled.png";
-import FinalThree from "./assets/750.png";
+import Three from "../assets/3.png";
+import ThreeFilled from "../assets/3Filled.png";
+import FinalThree from "../assets/750.png";
 
-import Four from "./assets/4.png";
-import FourFilled from "./assets/4Filled.png";
-import FinalFour from "./assets/1000.png";
+import Four from "../assets/4.png";
+import FourFilled from "../assets/4Filled.png";
+import FinalFour from "../assets/1000.png";
 
-import Five from "./assets/5.png";
-import FiveFilled from "./assets/5Filled.png";
-import FinalFive from "./assets/1250.png";
+import Five from "../assets/5.png";
+import FiveFilled from "../assets/5Filled.png";
+import FinalFive from "../assets/1250.png";
 
-import Six from "./assets/6.png";
-import SixFilled from "./assets/6Filled.png";
-import FinalSix from "./assets/1500.png"
+import Six from "../assets/6.png";
+import SixFilled from "../assets/6Filled.png";
+import FinalSix from "../assets/1500.png"
 
 import CombinedAvatars from "./Avatar";
 

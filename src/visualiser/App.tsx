@@ -1,10 +1,10 @@
-import { Button, Grid2 as Grid } from '@mui/material';
-import './App.css';
+import { Grid2 as Grid } from '@mui/material';
+import '../App.css';
 
 import { useEffect, useMemo, useState } from 'react';
 import Cup, { BlankCup, teacupImages } from './Cup';
 import DefaultMilestones, { Milestone } from './Milestone';
-import { database } from './db';
+import { database } from '../db';
 import { off, onChildAdded, onChildChanged, onChildRemoved, onValue, ref } from 'firebase/database';
 
 function App() {
@@ -144,7 +144,6 @@ function App() {
       </Grid>
       <Grid size={2} className="container">
         <BlankCup ImageSource={nextCup}/>
-        <Button onClick={() => setDonations(donations + 100)} variant="contained">Add</Button>
       </Grid>
     </Grid>
     </>

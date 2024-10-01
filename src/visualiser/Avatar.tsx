@@ -1,7 +1,7 @@
 import { Avatar } from "@mui/material"
 
-import Julia from './assets/julia.png';
-import Bryony from './assets/bryony.png';
+import Julia from '../assets/julia.png';
+import Bryony from '../assets/bryony.png';
 
 
 const TeaAvatar = ({who}: {who: "julia" | "bryony"}) => {
