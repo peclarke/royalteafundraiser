@@ -6,11 +6,14 @@ import Cup, { BlankCup, teacupImages } from './Cup';
 import DefaultMilestones, { Milestone } from './Milestone';
 import { database } from '../db';
 import { off, onChildAdded, onChildChanged, onChildRemoved, onValue, ref } from 'firebase/database';
+import { ScreenTypes } from '../admin/Admin';
+import MilestoneScreen from '../milestones/MilestoneScreen';
 
 function App() {
   // internal state
   const [donations, setDonations] = useState<number>(0);
   const [milestones, setMilestones] = useState<Milestone[]>(DefaultMilestones);
+  const [type, setType] = useState<ScreenTypes>("visual");
 
   const [currentProgress, setCurrentProgress] = useState<number>(0);
 
@@ -57,12 +60,17 @@ function App() {
     // refs for interactions
     const dbDonations  = ref(database, 'donations');
     const dbMilestones = ref(database, 'milestones');
-    
+    const dbType = ref(database, 'type');
 
     // listeners
     onValue(dbDonations, (snapshot) => {
       const newValue = snapshot.val();
       setDonations(newValue);
+    })
+
+    onValue(dbType, (snapshot) => {
+      const type = snapshot.val();
+      setType(type);
     })
 
     onChildAdded(dbMilestones, (data) => {
@@ -98,55 +106,56 @@ function App() {
     return () => {
       off(dbDonations);
       off(dbMilestones);
+      off(dbType);
     }
   }, [])
 
   // rendering
   return (
-    <>
-    <div className="title">
-      <span>THE ROYAL TEA FUNDRAISER</span>
-    </div>
-    <Grid container spacing={2}>
-      <Grid size={2} className="container-previous">
-        {
-          previousCups.map(url => <BlankCup ImageSource={url} />)
-        }
-      </Grid>
-      <Grid size={8} className="container feature">
-        <div className="feature-content" style={styleExists ? {gap: '10em'} : {}}>
-          <div className="info-container">
-
-            <div className="donation-container" style={activeTeacup ? activeTeacup.donationStyle : defaultStyling}>
-              <span>${donations}</span>
-              <span>raised</span>
-            </div>
-
-            {activeMilestone && <div className="milestone-container" style={!styleExists ? {border: '4px dashed ' + activeTeacup?.donationStyle.backgroundColor} : {}}>
-              <div className="milestone">
-                <span>{activeMilestone.reward}</span>
-              </div>
-              {activeTeacup && <div className="progress" style={!styleExists ? activeTeacup.donationStyle : {}}>
-                <span>{currentProgress}%</span>
-                <span>complete</span>
-              </div>}
-            </div>}
-          </div>
-          {(activeTeacup && activeMilestone) ? <Cup 
-            ImageSource={activeTeacup.baseUrl}
-            ImageSource2={activeTeacup.filledUrl}
-            donations={donations}
-            activeMilestone={activeMilestone}
-            setCurrentProgress={setCurrentProgress}
-          /> : <img src="https://i.imgflip.com/94powm.jpg" id="theking"/>
+    type === "visual" ? <>
+      <div className="title">
+        <span>THE ROYAL TEA FUNDRAISER</span>
+      </div>
+      <Grid container spacing={2}>
+        <Grid size={2} className="container-previous">
+          {
+            previousCups.map(url => <BlankCup ImageSource={url} />)
           }
-        </div>
+        </Grid>
+        <Grid size={8} className="container feature">
+          <div className="feature-content" style={styleExists ? {gap: '10em'} : {}}>
+            <div className="info-container">
+
+              <div className="donation-container" style={activeTeacup ? activeTeacup.donationStyle : defaultStyling}>
+                <span>${donations}</span>
+                <span>raised</span>
+              </div>
+
+              {activeMilestone && <div className="milestone-container" style={!styleExists ? {border: '4px dashed ' + activeTeacup?.donationStyle.backgroundColor} : {}}>
+                <div className="milestone">
+                  <span>{activeMilestone.reward}</span>
+                </div>
+                {activeTeacup && <div className="progress" style={!styleExists ? activeTeacup.donationStyle : {}}>
+                  <span>{currentProgress}%</span>
+                  <span>complete</span>
+                </div>}
+              </div>}
+            </div>
+            {(activeTeacup && activeMilestone) ? <Cup 
+              ImageSource={activeTeacup.baseUrl}
+              ImageSource2={activeTeacup.filledUrl}
+              donations={donations}
+              activeMilestone={activeMilestone}
+              setCurrentProgress={setCurrentProgress}
+            /> : <img src="https://i.imgflip.com/94powm.jpg" id="theking"/>
+            }
+          </div>
+        </Grid>
+        <Grid size={2} className="container">
+          <BlankCup ImageSource={nextCup}/>
+        </Grid>
       </Grid>
-      <Grid size={2} className="container">
-        <BlankCup ImageSource={nextCup}/>
-      </Grid>
-    </Grid>
-    </>
+      </> : type === "milestone" ? <MilestoneScreen donations={donations} milestones={milestones}/> : <></>
   )
 }
 

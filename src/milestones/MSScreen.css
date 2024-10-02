@@ -1,0 +1,58 @@
+.msscreen {
+    width: 100vw;
+    height: 100vh;
+}
+
+.msscrn-container {
+    border-top: 4px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.msscrn-container>:first-child {
+    width: 100%;
+    padding: 2em;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.milestonegroup {
+    width: 100%;
+    padding: 2em;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.donationBox {
+    font-size: 100px;
+    border: 10px solid black;
+    width: 80%;
+    text-align: center;
+}
+
+.ms-screen-tab {
+    font-size: 35px;
+}
+
+.ms-tab-completed {
+    background-color: rgb(166, 255, 166);
+    color: black;
+    border: 5px solid green;
+}
+
+.completed-milestones {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    gap: 5px;
+}

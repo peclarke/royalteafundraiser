@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import './Admin.css';
-import { Box, Button, Card, Modal, Paper, TextField } from "@mui/material";
+import { Box, Button, Card, Menu, MenuItem, Modal, Paper, TextField } from "@mui/material";
 import { off, onValue, ref, set } from "firebase/database";
 import { database } from "../db";
 import { Milestone } from "../visualiser/Milestone";
@@ -42,15 +42,20 @@ const Admin = () => {
     )
 }
 
+export type ScreenTypes = "visual" | "milestone" | "spin" | "competition";
+
 const ControlPanel = () => {
     // we never manually change these, these are updated from firebase
     const [donations, setDonations] = useState<number>(0);
     const [milestones, setMilestones] = useState<Milestone[]>([]);
+    const [type, setType] = useState<ScreenTypes>("visual");
 
     // we can manually change these states
     const [changeAmt, setChangeAmt] = useState<number>(0);
     const [msIdx, setMsIdx] = useState<number | undefined>(undefined);
     const [addModal, setAddModal] = useState<boolean>(false);
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const selectedMilestone = useMemo(() => {
         // gotta be careful
@@ -74,6 +79,17 @@ const ControlPanel = () => {
 
     const dbDonations = useMemo(() => {return ref(database, 'donations')}, [])
     const dbMilestones = useMemo(() => {return ref(database, 'milestones')}, [])
+    const dbType = useMemo(() => {return ref(database, 'type')}, [])
+
+    const handleMenuChange = (type: "visual" | "milestone" | "spin" | "competition") => {
+        set(dbType, type);
+        setMenuOpen(false);
+    }
+
+    const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+        setMenuOpen(true);
+    };
 
     // firebase trickery
     useEffect(() => {
@@ -81,6 +97,11 @@ const ControlPanel = () => {
         onValue(dbDonations, (snapshot) => {
             const newValue = snapshot.val();
             setDonations(newValue);
+        })
+
+        onValue(dbType, (snapshot) => {
+            const val = snapshot.val();
+            setType(val);
         })
 
         // once off get all milestones
@@ -96,6 +117,7 @@ const ControlPanel = () => {
             return () => {
                 off(dbDonations);
                 off(dbMilestones);
+                off(dbType);
             }
         }, []);
 
@@ -112,10 +134,10 @@ const ControlPanel = () => {
         setChangeAmt(0);
     }
 
-    const confirmMilestones = () => {
-        // placeholder
-        set(dbMilestones, []);
-    }
+    // const confirmMilestones = () => {
+    //     // placeholder
+    //     set(dbMilestones, []);
+    // }
 
     const MilestoneTab = ({ms, index}: {ms: Milestone, index: number}) => {
         const msTabClass = index === msIdx ? 'ms-tab ms-tab-selected' : 'ms-tab';
@@ -224,7 +246,32 @@ const ControlPanel = () => {
 
     return (
         <div className="controlpanel-container">
+            <Button
+                id="basic-button"
+                aria-controls={menuOpen ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={menuOpen ? 'true' : undefined}
+                onClick={handleMenuClick}
+                variant="outlined"
+            >
+                Mode
+            </Button>
+            <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={menuOpen}
+                onClose={() => setMenuOpen(false)}
+                MenuListProps={{
+                'aria-labelledby': 'basic-button',
+                }}
+            >
+                <MenuItem onClick={() => handleMenuChange("visual")}>Visual</MenuItem>
+                <MenuItem onClick={() => handleMenuChange("milestone")}>Milestones</MenuItem>
+                <MenuItem onClick={() => handleMenuChange("spin")}>Spinner</MenuItem>
+                <MenuItem onClick={() => handleMenuChange("competition")}>Competition</MenuItem>
+            </Menu>
             <span id="cc">Royal Tea Fundraiser: Admin Portal - built by Paul Clarke</span>
+            {type === "visual" && <>
             <div className="donationbox">
                 <span>${donations}</span>
             </div>
@@ -257,7 +304,8 @@ const ControlPanel = () => {
                         <AddMilestone />
                     </div>
                     <div className="milestone-sele ms-sec">
-                        {selectedMilestone && <MilestoneManager selectedMilestone={selectedMilestone}/>}
+                        {selectedMilestone ? <MilestoneManager selectedMilestone={selectedMilestone}/>
+                            : <p>Select a milestone to view/edit</p>}
                         <Modal open={addModal} onClose={() => setAddModal(false)} className="modal">
                             <Card className="modal-card">
                                 <MilestoneAdd />
@@ -266,6 +314,7 @@ const ControlPanel = () => {
                     </div>
                 </div>
             </Paper>
+            </>}
         </div>
     )
 }
