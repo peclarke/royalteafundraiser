@@ -27,6 +27,8 @@ const Auth = ({children}: { children: any}) => {
             <TextField type="password" value={psw} onChange={(e: any) => setPsw(e.target.value)} />
             <Button variant="contained" onClick={login}>Submit</Button>
             <span style={{color: "red"}}>{err}</span>
+            <hr></hr>
+            <p>Not meant to be here? Click <a href="/">here</a> to go back.</p>
         </div>
     )
 }
