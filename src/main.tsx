@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './visualiser/App';
 import Admin from './admin/Admin';
 import './index.css'
+import Auth from './Auth';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <Admin />,
+        element: <Auth><Admin /></Auth>,
       },
     ],
   },

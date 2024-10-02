@@ -79,3 +79,15 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.authenticate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100vw;
+  height: 100vh;
+  gap: 1em;
+}
