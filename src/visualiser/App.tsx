@@ -2,12 +2,14 @@ import { Grid2 as Grid } from '@mui/material';
 import '../App.css';
 
 import { useEffect, useMemo, useState } from 'react';
-import Cup, { BlankCup, teacupImages } from './Cup';
+import Cup, { BlankCup, teacupImages, TeacupImageType } from './Cup';
 import DefaultMilestones, { Milestone } from './Milestone';
 import { database } from '../db';
 import { off, onChildAdded, onChildChanged, onChildRemoved, onValue, ref } from 'firebase/database';
 import { ScreenTypes } from '../admin/Admin';
 import MilestoneScreen from '../milestones/MilestoneScreen';
+import WheelScreen from '../wheel/Wheel';
+import Competition from '../competition/Competition';
 
 function App() {
   // internal state
@@ -35,16 +37,33 @@ function App() {
       return undefined;
     }
   }, [activeMilestone]);
+
+  const getShortDesc = (image: TeacupImageType) => {
+    const group = milestones.filter(ms => ms.value === image.donationValue);
+    if (group.length > 0) {
+      return group[0].short;
+    } else {
+      return "No description"
+    }
+  }
   
   const nextCup = useMemo(() => {
     const afterGroup = teacupImages.filter(image => image.donationValue > (donations + 250));
     const after = afterGroup.length > 0 ? afterGroup[0].baseUrl : undefined;
-    return after;
+    return {
+      url: after,
+      short: afterGroup.length > 0 ? getShortDesc(afterGroup[0]) : ""
+    };
   }, [activeMilestone])
 
   const previousCups = useMemo(() => {
     const beforeGroup = teacupImages.filter(image => image.donationValue <= donations);
-    const beforeUrls = beforeGroup.map(image => image.finalUrl ?? image.filledUrl);
+
+    const beforeUrls = beforeGroup.map(image => { return {
+      ...image,
+      finalUrl: image.finalUrl ?? image.filledUrl,
+      short: getShortDesc(image)
+    }});
     return beforeUrls;
   }, [activeMilestone])
 
@@ -119,7 +138,12 @@ function App() {
       <Grid container spacing={2}>
         <Grid size={2} className="container-previous">
           {
-            previousCups.map(url => <BlankCup ImageSource={url} />)
+            previousCups.map(img => 
+              <div className="blankCup">
+                <BlankCup ImageSource={img.finalUrl} />
+                <span style={{fontSize: '20px'}}>{img.short}</span>
+              </div>
+            )
           }
         </Grid>
         <Grid size={8} className="container feature">
@@ -152,10 +176,15 @@ function App() {
           </div>
         </Grid>
         <Grid size={2} className="container">
-          <BlankCup ImageSource={nextCup}/>
+          <div className="blankCup">
+            <BlankCup ImageSource={nextCup.url} />
+            <span style={{fontSize: '20px'}}>{nextCup.short}</span>
+          </div>
         </Grid>
       </Grid>
-      </> : type === "milestone" ? <MilestoneScreen donations={donations} milestones={milestones}/> : <></>
+      </> : type === "milestone" ? <MilestoneScreen donations={donations} milestones={milestones}/> 
+      : type === "spin" ? <WheelScreen/> 
+      : type === "competition" ? <Competition /> : <></>
   )
 }
 

@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import './Admin.css';
 import { Box, Button, Card, Menu, MenuItem, Modal, Paper, TextField } from "@mui/material";
 import { off, onValue, ref, set } from "firebase/database";
 import { database } from "../db";
 import { Milestone } from "../visualiser/Milestone";
+import { MilestoneAdminScreen } from "../milestones/MilestoneScreen";
+import { CompetitionAdminScreen } from "../competition/Competition";
 
 /**
  * This is the admin page for managing donations and milestones.
@@ -143,7 +145,7 @@ const ControlPanel = () => {
         const msTabClass = index === msIdx ? 'ms-tab ms-tab-selected' : 'ms-tab';
         return (
             <div className={msTabClass} onClick={() => setMsIdx(index)}>
-                <span><strong>{ms.value}</strong>: {ms.short}</span>
+                <span><strong>{ms.value}</strong></span>
             </div>
         )
     }
@@ -151,7 +153,7 @@ const ControlPanel = () => {
     const AddMilestone = () => {
         return (
             <div className="add-tab" onClick={() => setAddModal(true)}>
-                <span>Add Milestone</span>
+                <span>Add</span>
             </div>
         )
     }
@@ -267,11 +269,11 @@ const ControlPanel = () => {
             >
                 <MenuItem onClick={() => handleMenuChange("visual")}>Visual</MenuItem>
                 <MenuItem onClick={() => handleMenuChange("milestone")}>Milestones</MenuItem>
-                <MenuItem onClick={() => handleMenuChange("spin")}>Spinner</MenuItem>
+                {/* <MenuItem onClick={() => handleMenuChange("spin")}>Spinner</MenuItem> */}
                 <MenuItem onClick={() => handleMenuChange("competition")}>Competition</MenuItem>
             </Menu>
             <span id="cc">Royal Tea Fundraiser: Admin Portal - built by Paul Clarke</span>
-            {type === "visual" && <>
+            {type === "visual" ? <>
             <div className="donationbox">
                 <span>${donations}</span>
             </div>
@@ -314,7 +316,8 @@ const ControlPanel = () => {
                     </div>
                 </div>
             </Paper>
-            </>}
+            </> : type === "milestone" ? <MilestoneAdminScreen /> 
+            : type === "competition" ? <CompetitionAdminScreen /> : <></>}
         </div>
     )
 }

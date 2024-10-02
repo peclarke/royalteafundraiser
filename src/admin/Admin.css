@@ -6,6 +6,8 @@
     height: 100vh;
     width: 100vw;
     margin-top: 2em;
+    /* overflow-y: scroll; */
+    overflow-y: auto;
 }
 
 .donationbox {
@@ -25,7 +27,7 @@
 .controls-container {
     margin-top: 2em;
     width: 80%;
-    height: 70%;
+    height: 190vh;
     margin-left: auto;
     margin-right: auto;
     padding-left: 1em;
@@ -34,6 +36,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* overflow-y: auto; */
     /* flex-wrap: wrap; */
     /* overflow: break-wor */
 }
@@ -45,6 +48,7 @@
     flex-direction: column;
     gap: 1em;
     width: 100%;
+    /* height: 100%; */
 }
 
 .donationControls>.amts {
@@ -55,6 +59,7 @@
      align-items: center;
      width: 100%;
      flex-wrap: wrap;
+     /* height: 100%; */
 }
 
 .donationControls>.setting {
@@ -63,6 +68,7 @@
     width: 100%;
     justify-content: center;
     /* align-items: center; */
+    /* height: 100%; */
     gap: 1em;
 }
 
@@ -80,24 +86,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100vh;
     width: 100%;
     gap: 1em;
-    overflow: hidden;
+    /* overflow: auto; */
 }
 
 .milestone-list {
     display: flex;
     flex-direction: column;
+    width: 20%;
     gap: 5px;
-    overflow-y: scroll;
+    height: 100vh;
+    /* overflow-y: scroll; */
 }
 
 .milestone-sele {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .ms-tab {
@@ -105,6 +113,8 @@
     padding: 1em;
     cursor: pointer;
     margin-right: 1em;
+    text-align: center;
+    width: 50%;
 }
 
 .add-tab {
@@ -115,6 +125,7 @@
     color: gray;
     text-align: center;
     margin-top: 1em;
+    width: 50%;
 }
 
 .ms-tab-selected {

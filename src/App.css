@@ -187,3 +187,10 @@ body {
 #theking {
   width: 80%;
 }
+
+.blankCup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
