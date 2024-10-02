@@ -34,7 +34,7 @@ const Competition = () => {
                     <span><strong>The Challenge:</strong></span>
                     <span>Brew the best possible tea that you can. Carly Kies will 
                         judge the teas based on the following areas:</span>
-                    <Stack direction="row" spacing={1} className="area-stack">
+                    <Stack direction="row" spacing={1} className="area-stack-cats">
                         <Chip label="Taste" color="success"/>
                         <Chip label="Aroma" color="primary" />
                         <Chip label="Appearance" color="error" />
