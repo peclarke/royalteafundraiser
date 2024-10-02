@@ -8,12 +8,16 @@ I developed similar software to this for a different fundraiser which can also b
 2. This software uses firebase realtime database as a truce source of information. This was simpler and overall, a much more robust solution in comparison to creating your own server from scratch.
 
 ## Features
-- Donation Tracking
+- Donation/Milestone Tracking
 - Milestones per donation
 - Admin panel (mobile optimised)
+- Change the donation visualiser screen from the admin panel
+- Modular drop in of new screens that can be added (i.e. competition / wheel screen)
+- Rudimentary authentication for admin panel
 
 ## Planned
-- Authentication for admin panel
+- A templated teacup for new milestones
+- Editing milestones properly from the admin panel
 
 ## Screenshots
 ![Screen Shot 2024-10-01 at 3 41 32 pm](https://github.com/user-attachments/assets/35041274-9a54-44fc-90db-faebbfe7bf57)
