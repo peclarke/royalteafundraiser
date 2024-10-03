@@ -10,6 +10,7 @@ import { ScreenTypes } from '../admin/Admin';
 import MilestoneScreen from '../milestones/MilestoneScreen';
 import WheelScreen from '../wheel/Wheel';
 import Competition from '../competition/Competition';
+import RaffleScreen from '../raffle/Raffle';
 
 function App() {
   // internal state
@@ -184,7 +185,8 @@ function App() {
       </Grid>
       </> : type === "milestone" ? <MilestoneScreen donations={donations} milestones={milestones}/> 
       : type === "spin" ? <WheelScreen/> 
-      : type === "competition" ? <Competition /> : <></>
+      : type === "competition" ? <Competition /> 
+      : type === "raffle" ? <RaffleScreen /> : <></>
   )
 }
 

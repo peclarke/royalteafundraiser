@@ -7,6 +7,7 @@ import { database } from "../db";
 import { Milestone } from "../visualiser/Milestone";
 import { MilestoneAdminScreen } from "../milestones/MilestoneScreen";
 import { CompetitionAdminScreen } from "../competition/Competition";
+import RaffleScreen from "../raffle/Raffle";
 
 /**
  * This is the admin page for managing donations and milestones.
@@ -44,7 +45,7 @@ const Admin = () => {
     )
 }
 
-export type ScreenTypes = "visual" | "milestone" | "spin" | "competition";
+export type ScreenTypes = "visual" | "milestone" | "spin" | "competition" | "raffle";
 
 const ControlPanel = () => {
     // we never manually change these, these are updated from firebase
@@ -83,7 +84,7 @@ const ControlPanel = () => {
     const dbMilestones = useMemo(() => {return ref(database, 'milestones')}, [])
     const dbType = useMemo(() => {return ref(database, 'type')}, [])
 
-    const handleMenuChange = (type: "visual" | "milestone" | "spin" | "competition") => {
+    const handleMenuChange = (type: ScreenTypes) => {
         set(dbType, type);
         setMenuOpen(false);
     }
@@ -270,6 +271,7 @@ const ControlPanel = () => {
                 <MenuItem onClick={() => handleMenuChange("visual")}>Visual</MenuItem>
                 <MenuItem onClick={() => handleMenuChange("milestone")}>Milestones</MenuItem>
                 {/* <MenuItem onClick={() => handleMenuChange("spin")}>Spinner</MenuItem> */}
+                <MenuItem onClick={() => handleMenuChange("raffle")}>Raffle</MenuItem>
                 <MenuItem onClick={() => handleMenuChange("competition")}>Competition</MenuItem>
             </Menu>
             <span id="cc">Royal Tea Fundraiser: Admin Portal - built by Paul Clarke</span>
@@ -317,7 +319,8 @@ const ControlPanel = () => {
                 </div>
             </Paper>
             </> : type === "milestone" ? <MilestoneAdminScreen /> 
-            : type === "competition" ? <CompetitionAdminScreen /> : <></>}
+            : type === "competition" ? <CompetitionAdminScreen /> 
+            : type === "raffle" ? <RaffleScreen /> : <></>}
         </div>
     )
 }

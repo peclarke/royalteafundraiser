@@ -1,6 +1,45 @@
 {
     "type": "visual",
     "donations": 0,
+    "password": "Garden2024",
+    "raffle": [
+        {
+            "taken": false,
+            "id": 0,
+            "name": "Grilld Voucher (A)",
+            "url": "grilld.png"
+        },
+        {
+            "taken": false,
+            "id": 1,
+            "name": "Grilld Voucher (B)",
+            "url": "grilld.png"
+        },
+        {
+            "taken": false,
+            "id": 2,
+            "name": "Free Beach Camp",
+            "url": "beachCamp.jpg"
+        },
+        {
+            "taken": false,
+            "id": 3,
+            "name": "Meat Tray (A)",
+            "url": "meattray.jpg"
+        },
+        {
+            "taken": false,
+            "id": 4,
+            "name": "Meat Tray (B)",
+            "url": "meattray.jpg"
+        },
+        {
+            "taken": false,
+            "id": 5,
+            "name": "Tea Dunk",
+            "url": "bucket.png"
+        }
+    ],
     "milestones": [
         { 
             "value": 250, 

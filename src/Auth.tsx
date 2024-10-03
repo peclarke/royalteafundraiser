@@ -1,16 +1,31 @@
 import { Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { off, onValue, ref } from 'firebase/database';
+import { useEffect, useState } from 'react';
+import { database } from './db';
 
 const Auth = ({children}: { children: any}) => {
-    const password = import.meta.env.VITE_PASSWORD;
+    const [authPass, setAuthPass] = useState<string | undefined>(undefined);
 
     const loggedIn = localStorage.getItem('loggedIn') === "true";
 
     const [psw, setPsw] = useState<string>("");
     const [err, setErr] = useState<string>("");
+    
+    useEffect(() => {
+        const dbPass = ref(database, 'password')
+        onValue(dbPass, (value) => {
+            const pass = value.val();
+            setAuthPass(pass);
+        }, {
+            onlyOnce: true
+        })
+        return () => {
+            off(dbPass);
+        }
+    }, [])
 
     const login = async () => {
-        if (password !== psw) {
+        if (authPass !== psw && authPass !== undefined) {
             setErr("Error: Wrong password")
         } else {
             localStorage.setItem('loggedIn', 'true');
