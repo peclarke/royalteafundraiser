@@ -201,3 +201,86 @@ body {
   align-items: center;
   margin-bottom: 1em;
 }
+
+/** MOBILE CSS STUFF **/
+
+.mobile-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  gap: 2em;
+}
+
+.mobile-container>.donation-container {
+  width: 100%;
+  border-radius: 0;
+}
+
+.mobile-milestone-container {
+  width: 100%;
+  height: 20vh;
+  font-size: 15px;
+}
+
+@keyframes avatar-movement-mobile {
+  0% { height: 35% }
+  50% { height: 38% }
+  100% { height: 35% }
+}
+
+.mobile-container>.avatar-container {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+  width: 100%;
+  animation-name: avatar-movement-mobile; 
+  animation-duration: 4s;
+  animation-duration: alternate;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite; 
+}
+
+.mobile-container>.title {
+  margin-bottom: 4px solid black;
+  background-color: rgb(232, 232, 232);
+  width: 100%;
+}
+
+.mobile-milestone-container>.milestone {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 3em;
+  padding-right: 3em;
+  text-align: justify;
+}
+
+.mobile-milestone-container>.milestone>:nth-child(2) {
+  font-size: 25px;
+}
+
+.mobile-milestone-container>div {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile-container>.mobile-milestone-container>.progress {
+  gap: 2%;
+}
+
+.mobile-container>.mobile-milestone-container>.progress>span:first-child {
+  font-size: 50px;
+}
+
+.mobile-container>.mobile-milestone-container>.progress>span:last-child {
+  /* font-size: 40px; */
+  margin-top: 30px;
+}

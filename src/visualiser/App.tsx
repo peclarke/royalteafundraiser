@@ -11,6 +11,8 @@ import MilestoneScreen from '../milestones/MilestoneScreen';
 import WheelScreen from '../wheel/Wheel';
 import Competition from '../competition/Competition';
 import RaffleScreen from '../raffle/Raffle';
+import { useMediaQuery } from 'react-responsive';
+import CombinedAvatars from './Avatar';
 
 function App() {
   // internal state
@@ -18,7 +20,12 @@ function App() {
   const [milestones, setMilestones] = useState<Milestone[]>(DefaultMilestones);
   const [type, setType] = useState<ScreenTypes>("visual");
 
-  const [currentProgress, setCurrentProgress] = useState<number>(0);
+  const [currentProgress, _setCurrentProgress] = useState<number>(0);
+
+  const setCurrentProgress = (num: number) => {
+    const newNum = Number(num.toPrecision(2));
+    _setCurrentProgress(newNum);
+  }
 
   const activeMilestone = useMemo(() => { 
     const nextMilestones = milestones.filter(milestone => milestone.value > donations);
@@ -130,9 +137,21 @@ function App() {
     }
   }, [])
 
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
+
+  const useMobileStyle = isTabletOrMobile && isPortrait;
+
   // rendering
   return (
-    type === "visual" ? <>
+    type === 'visual' && useMobileStyle ? 
+      <MobileView 
+        donations={donations}
+        activeTeacup={activeTeacup}
+        activeMilestone={activeMilestone}
+        currentProgress={currentProgress}
+      />
+    : type === "visual" ? <>
       <div className="title">
         <span>THE ROYAL TEA FUNDRAISER</span>
       </div>
@@ -187,6 +206,44 @@ function App() {
       : type === "spin" ? <WheelScreen/> 
       : type === "competition" ? <Competition /> 
       : type === "raffle" ? <RaffleScreen /> : <></>
+  )
+}
+
+type MobileViewProps = {
+  activeTeacup: TeacupImageType | undefined;
+  donations: number;
+  activeMilestone: Milestone | undefined;
+  currentProgress: number;
+}
+
+const MobileView = (props: MobileViewProps) => {
+  const defaultStyling = {
+    backgroundColor: 'rgb(90, 90, 90)',
+    color: 'white'
+  }
+
+  const styleExists = !(props.activeMilestone && props.activeMilestone.reward);
+
+  return (
+    <div className="mobile-container">
+      <div className="title">
+        <span>THE ROYAL TEA FUNDRAISER</span>
+      </div>
+      <CombinedAvatars/>
+      <div className="donation-container" style={props.activeTeacup ? props.activeTeacup.donationStyle : defaultStyling}>
+        <span>${props.donations}</span>
+        <span>raised</span>
+      </div>
+      {props.activeMilestone && <div className="mobile-milestone-container" style={!styleExists ? {border: '4px dashed ' + props.activeTeacup?.donationStyle.backgroundColor} : {}}>
+        <div className="milestone">
+          <strong>Next Milestone</strong>
+          <span>{props.activeMilestone.reward}</span>
+        </div>
+        {props.activeTeacup && <div className="progress" style={!styleExists ? props.activeTeacup.donationStyle : {}}>
+          <span>Goal: {props.activeMilestone.value}</span>
+        </div>}
+      </div>}
+    </div>
   )
 }
 

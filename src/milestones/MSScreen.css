@@ -36,7 +36,10 @@
     border: 10px solid black;
     width: 80%;
     text-align: center;
-    overflow: hidden;
+    /* overflow: auto; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ms-tab-root {
@@ -90,7 +93,4 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-}
-
-.tab-container {
 }
