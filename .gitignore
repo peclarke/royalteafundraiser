@@ -3,3 +3,5 @@ src/assets/julia.png
 src/assets/bryony.png
 .DS_Store
 .env
+dist
+.firebase

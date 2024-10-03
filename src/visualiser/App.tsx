@@ -179,7 +179,7 @@ function App() {
         <Grid size={2} className="container">
           <div className="blankCup">
             <BlankCup ImageSource={nextCup.url} />
-            <span style={{fontSize: '20px'}}>{nextCup.short}</span>
+            <span style={{fontSize: '20px', marginLeft: '5px', marginRight: '5px'}}>{nextCup.short}</span>
           </div>
         </Grid>
       </Grid>
