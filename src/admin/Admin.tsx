@@ -249,16 +249,6 @@ const ControlPanel = () => {
 
     return (
         <div className="controlpanel-container">
-            <Button
-                id="basic-button"
-                aria-controls={menuOpen ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={menuOpen ? 'true' : undefined}
-                onClick={handleMenuClick}
-                variant="outlined"
-            >
-                Mode
-            </Button>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
@@ -275,9 +265,23 @@ const ControlPanel = () => {
                 <MenuItem onClick={() => handleMenuChange("competition")}>Competition</MenuItem>
             </Menu>
             <span id="cc">Royal Tea Fundraiser: Admin Portal - built by Paul Clarke</span>
+            <div className="mode-cont">
+                <Button
+                    id="basic-button"
+                    aria-controls={menuOpen ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={menuOpen ? 'true' : undefined}
+                    onClick={handleMenuClick}
+                    variant="outlined"
+                >
+                    Mode
+                </Button>
+            </div>
             {type === "visual" ? <>
-            <div className="donationbox">
-                <span>${donations}</span>
+            <div>
+                <div className="donationbox">
+                    <span>${donations}</span>
+                </div>
             </div>
             <Paper elevation={2} className="controls-container">
                 <h3>Donations</h3>

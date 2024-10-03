@@ -5,7 +5,7 @@
     flex-direction: "column";
     height: 100vh;
     width: 100vw;
-    margin-top: 2em;
+    margin-top: 7em;
     /* overflow-y: scroll; */
     overflow-y: auto;
 }
@@ -27,7 +27,7 @@
 .controls-container {
     margin-top: 2em;
     width: 80%;
-    height: 190vh;
+    /* height: 190vh; */
     margin-left: auto;
     margin-right: auto;
     padding-left: 1em;
@@ -97,7 +97,7 @@
     flex-direction: column;
     width: 20%;
     gap: 5px;
-    height: 100vh;
+    /* height: 100vh; */
     /* overflow-y: scroll; */
 }
 
@@ -173,9 +173,14 @@
     background-color: rgb(49, 49, 49);
 }
 
-#basic-button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin: 5px;
+.mode-sec {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.mode-sec>span>strong {
+    text-transform: uppercase;
 }
