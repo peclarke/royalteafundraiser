@@ -19,7 +19,7 @@ const Countdown = () => {
         return () => clearInterval(interval);
       }, [countDownDate]);
 
-    const [ days, hours, minutes, seconds ] = useMemo(() => {
+    const [ hours, minutes, seconds ] = useMemo(() => {
         // calculate time left
         const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
         const hours = Math.floor(
