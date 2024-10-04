@@ -5,6 +5,7 @@ import App from './visualiser/App';
 import Admin from './admin/Admin';
 import './index.css'
 import Auth from './Auth';
+import Countdown from './Countdown';
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <App />
+        element: <Countdown />
       },
       {
         path: "admin",
